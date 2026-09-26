@@ -117,7 +117,7 @@ def main():
         return 1
 
     # ---------------- ④ ac ----------------
-    out2, err2 = run_node('solve.cjs', [drag, args.ak, sid, y, token], timeout=240)
+    out2, err2 = run_node('solve.cjs', [drag, args.ak, sid, y], timeout=240)
     log('④ solve.cjs 输出:')
     for line in (out2 or '').strip().splitlines()[-8:]:
         log('   ' + line)
@@ -135,8 +135,13 @@ def main():
 
     # ---------------- ⑤ 提交 ----------------
     x_up = round(drag + (10 if typ == 0 else 0))
-    body = urlencode({'ac': ac, 'ak': args.ak, 'aid': info['aid'], 'sid': sid,
-                      'x': x_up, 'y': y, 'c': token})
+    # ★ 参数名与顺序完全对齐真实抓包样本：
+    #   ac, ak, c, uid, jsv, sid, aid, x, y
+    body = urlencode([
+        ('ac', ac), ('ak', args.ak), ('c', token), ('uid', ''),
+        ('jsv', 'v1.4.0(81)'), ('sid', sid), ('aid', info['aid']),
+        ('x', x_up), ('y', y),
+    ])
     r = requests.post(API + '/api/v1', data=body, timeout=25,
                       headers={'Content-Type': 'application/x-www-form-urlencoded',
                                'User-Agent': UA, 'Referer': 'https://www.hb56.com/'})

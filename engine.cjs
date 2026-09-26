@@ -26,11 +26,12 @@ const CDN = 'https://cdn.gdtspace.com/static/dx-captcha';
 const API = 'https://captcha.gdtspace.com';
 
 const mode = process.argv[2] || 'dump';
+const MODE = mode;
 const AK = process.argv[3] || AK_DEFAULT;
 const WAIT = parseInt(process.env.DX_WAIT || '12000', 10);
 
 const logs = [];
-const caps = { params: [], lids: [], ua_hex: null, ua_len: 0, tokens: [], resp: [] };
+const caps = { params: [], lids: [], ua_hex: null, ua_len: 0, tokens: [], resp: [], sid: null, y: null, type: null, o: null, aid: null, apiA: null };
 
 const vc = new VirtualConsole();
 vc.on('jsdomError', e => logs.push('[E] ' + String(e.message).slice(0, 200)));
@@ -85,14 +86,47 @@ const dom = new JSDOM(html, {
       if (/^param$/i.test(k)) caps.params.push({ url: this.__u, param: String(v), len: String(v).length });
       return oHdr.apply(this, arguments);
     };
+    // ★ 同时 hook fetch：SDK 的 /api/a 可能走 fetch 而非 XHR
+    try {
+      const of = w.fetch;
+      if (typeof of === 'function') {
+        w.fetch = function (input, init) {
+          const url = String(input && input.url ? input.url : input);
+          const p = of.apply(this, arguments);
+          if (/\/api\/a\?/.test(url)) {
+            p.then(res => res.clone().text()).then(t => {
+              try {
+                const j = JSON.parse(t);
+                caps.sid = j.sid; caps.y = j.y; caps.type = j.type; caps.o = j.o;
+                const ma = /[?&]aid=([^&]+)/.exec(url);
+                if (ma) caps.aid = ma[1];
+                caps.resp.push({ url, status: 200, body: t.slice(0, 200) });
+              } catch (e) {}
+            }).catch(() => {});
+          }
+          return p;
+        };
+      }
+    } catch (e) {}
+
     X.prototype.send = function (b) {
       const self = this;
+      if (MODE === 'param') return;   // param 模式：不真发请求，避免 Param 被消耗（防重放 -9）
       this.addEventListener('load', function () {
         try {
           const t = self.responseText || '';
           caps.resp.push({ url: self.__u, status: self.status, body: t.slice(0, 400) });
           const m = t.match(/"data":"([A-Za-z0-9]+)"/);
           if (m && /token has been generated/.test(t)) caps.tokens.push(m[1]);
+          // ★ 记录 /api/a 的完整响应（sid / y / type），保证后续 ac 与提交用的是同一会话
+          if (/\/api\/a\?/.test(self.__u)) {
+            try {
+              const j = JSON.parse(t);
+              caps.apiA = j;
+              caps.sid = j.sid; caps.y = j.y; caps.type = j.type; caps.o = j.o;
+              caps.aid = (self.__u.match(/[?&]aid=([^&]+)/) || [])[1];
+            } catch (e) {}
+          }
         } catch (e) {}
       });
       return oSend.apply(this, arguments);
@@ -156,6 +190,11 @@ setTimeout(() => {
 
   setTimeout(() => {
     out.steps.ua = dumpUA(w);
+    out.sid = caps.sid;
+    out.y = caps.y;
+    out.type = caps.type;
+    out.o = caps.o;
+    out.aid = caps.aid ? decodeURIComponent(caps.aid) : null;
     out.lids = caps.lids;
     out.params = caps.params;
     out.tokens = caps.tokens;

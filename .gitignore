@@ -14,3 +14,10 @@ slider.webp
 bg_orig.png
 compare_restore.png
 .DS_Store
+.cp-*/
+run_*.log
+gp2.txt
+grab_post_out.txt
+orchestrate_result.json
+solve_result.json
+ac.txt

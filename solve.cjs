@@ -172,15 +172,30 @@ async function httpPost(url, body, extra) {
     const evt = (t, x, y) => new w.MouseEvent(t, { bubbles: true, cancelable: true, clientX: x, clientY: y, button: 0, buttons: t === 'mouseup' ? 0 : 1, view: w, detail: 1 });
     const fire = (t, x, y) => { try { w.document.dispatchEvent(evt(t, x, y)); } catch (e) {} };
     const bx = 1073, by = 340;
+    // 真实用户行为：先悬停 -> 按下 -> 先加速后减速拖动（70~110 个采样点）-> 末端回拉微调 -> 抬起
+    fire('mouseover', bx - 40, by);
+    fire('mouseenter', bx - 40, by);
+    for (let i = 0; i < 6; i++) { fire('mousemove', bx - 40 + i * 7, by + Math.sin(i) * 2); await sleep(14 + Math.random() * 30); }
     fire('mousedown', bx, by);
-    const N = 36;
+    await sleep(40 + Math.random() * 90);
+    const N = 70 + Math.floor(Math.random() * 40);
+    let cur = 0;
     for (let i = 1; i <= N; i++) {
-      const p = i / N, ease = p < 0.7 ? p * 1.25 : 0.875 + (p - 0.7) * 0.42;
-      fire('mousemove', bx + DRAG_X * Math.min(ease, 1), by + Math.sin(p * 7) * 1.5);
-      await sleep(8 + Math.random() * 16);
+      const p = i / N;
+      // 先加速（约占 65% 行程）后减速，末段带轻微回拉
+      const ease = p < 0.65 ? Math.pow(p / 0.65, 0.78) * 0.88 : 0.88 + Math.pow((p - 0.65) / 0.35, 1.6) * 0.12;
+      cur = DRAG_X * Math.min(ease, 1);
+      fire('mousemove', bx + cur, by + Math.sin(p * 9) * 2.2 + (Math.random() - 0.5) * 0.8);
+      await sleep(6 + Math.random() * 26);
     }
+    // 末端回拉 1~3px 再回到终点
+    const back = 1 + Math.random() * 2;
+    fire('mousemove', bx + DRAG_X - back, by);
+    await sleep(50 + Math.random() * 70);
+    fire('mousemove', bx + DRAG_X, by);
+    await sleep(60 + Math.random() * 90);
     fire('mouseup', bx + DRAG_X, by);
-    await sleep(800);
+    await sleep(1200);
     for (const m of ['getMM', 'getMD', 'getTC', 'getTMV', 'getKD', 'getFO']) {
       try { if (typeof inst[m] === 'function') inst[m](evt('mousemove', bx + 10, by)); } catch (e) {}
     }

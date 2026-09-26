@@ -4,14 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 const WebSocket = require('C:/Users/34498/.workbuddy/binaries/node/workspace/node_modules/ws');
-const PORT = 9400;
+const PORT = 9411;
 const get = u => new Promise((res, rej) => http.get(u, r => { let d = ''; r.on('data', c => d += c); r.on('end', () => res(d)); }).on('error', rej));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 (async () => {
   try { await get('http://127.0.0.1:' + PORT + '/json/version'); } catch (e) {
     const c = spawn('C:/Program Files/Google/Chrome/Application/chrome.exe', [
-      '--remote-debugging-port=' + PORT, '--user-data-dir=' + path.join(__dirname, '.cp-post'),
+      '--remote-debugging-port=' + PORT, '--user-data-dir=' + path.join(__dirname, '.cp-post' + Date.now()),
       '--no-first-run', '--no-default-browser-check', '--disable-blink-features=AutomationControlled', 'about:blank',
     ], { detached: true, stdio: 'ignore' });
     c.unref();
@@ -36,9 +36,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const ev = async e => { const r = await send('Runtime.evaluate', { expression: e, returnByValue: true }); return r && r.result ? r.result.value : null; };
   const CHK = 'JSON.stringify({u:location.href,l:document.documentElement.outerHTML.length})';
   let ready = false;
-  for (let a = 0; a < 3 && !ready; a++) {
+  for (let a = 0; a < 1 && !ready; a++) {
     await send('Page.navigate', { url: 'https://www.hb56.com/Login.aspx?type=pw' });
-    for (let i = 0; i < 8; i++) { await sleep(2500); const s = JSON.parse((await ev(CHK)) || "{}"); if (s.u && /Login\.aspx/.test(s.u) && s.l > 40000) { ready = true; break; } }
+    for (let i = 0; i < 26; i++) { await sleep(2500); const s = JSON.parse((await ev(CHK)) || "{}"); if (s.u && /Login\.aspx/.test(s.u) && s.l > 40000) { ready = true; break; } }
   }
   console.log('READY', ready);
   await sleep(14000);
