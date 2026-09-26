@@ -1,0 +1,38 @@
+正在打开页面，请稍候（瑞数防护下需要 40~50 秒）...
+  等待中... 页面长度=2840
+  等待中... 页面长度=3865
+  等待中... 页面长度=37658
+  等待中... 页面长度=37947
+缺口定位结果: {"gapX":18,"needDrag":18,"barW":300}
+
+=================================================
+  窗口里有一根【红色竖线】，那就是缺口位置
+  请把滑块从左边拖到红线处
+  拖不准可以多拖几次
+=================================================
+
+
+>>> 捕获到提交请求！
+>>> 提交响应: {"success":false,"token":null,"code":"4011","msg":"HIGH_RISK","tp":100,"sv":{"sc1":"/api/p1?sid=29261e966b50882f9e8fd103adf79154&ak=90762f230adee6af3957d9a029269461&code=&wp=1&imageType=0&_r=7f121a74478e485785a181d44b13347b&","p1":"/api/p1?sid=29261e966b50882f9e8fd103adf79154&ak=90762f230adee6af3957d9a029269461&code=&wp=1&imageType=0&_r=7f121a74478e485785a181d44b13347b&","p2":"/api/p1?sid=29261e966b50882f9e8fd103adf79154&ak=90762f230adee6af3957d9a029269461&code=&wp=1&imageType=1&_r=dfdfb6bed31c4111b97bbaebe1c7334d&","cww":155,"redirectUrl":"","ot":0,"type":1,"o":"81b7c1c15ae1598a6eaf2f8c391dd816","sid":"29261e966b50882f9e8fd103adf79154","chs":3,"sd":1,"tp1":"/api/p1?sid=29261e966b50882f9e8fd103adf79154&ak=90762f230adee6af3957d9a029269461&code=&wp=1&imageType=0&_r=7f121a74478e485785a181d44b13347b&","cw":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAAyCAYAAABLcqmqAAALpklEQVR42u2cCZBVxRWGL8jiwiJQI0FEUEdEURmJIGpwwQVcGDVawUQFxaDRUVIqCCFYaGnhVuJSCu6yuFvlSBZwYgqEQEBRKcVoICARE5OoUComyCC
+  (已刷新缺口标记: {"gapX":18,"needDrag":-81,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":-81,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":-81,"barW":300})
+
+>>> 捕获到提交请求！
+>>> 提交响应: {"success":true,"token":"1A0DE79EEFB90762F230AB2A5AF350FE148678D835155B74280F6","code":null,"msg":null,"tp":null,"sv":null,"result":null,"retry":0,"ot":0}
+  (已刷新缺口标记: {"gapX":18,"needDrag":1037,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":1037,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":1037,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":1037,"barW":300})
+  (已刷新缺口标记: {"gapX":18,"needDrag":1037,"barW":300})
+
+>>> 捕获到提交请求！
+>>> 提交响应: {"success":true,"token":"1A0DE7AAC6E90762F230A64CA605B71A84A34A89BFECD29E2630B","code":null,"msg":null,"tp":null,"sv":null,"result":null,"retry":0,"ot":0}
+
+事件总数: 552
+缺口信息: null
+提交次数: 3
+  响应: {"success":false,"token":null,"code":"4011","msg":"HIGH_RISK","tp":100,"sv":{"sc1":"/api/p1?sid=29261e966b50882f9e8fd103adf79154&ak=90762f230adee6af3957d9a029269461&code=&wp=1&imageType=0&_r=7f121a744
+  响应: {"success":true,"token":"1A0DE79EEFB90762F230AB2A5AF350FE148678D835155B74280F6","code":null,"msg":null,"tp":null,"sv":null,"result":null,"retry":0,"ot":0}
+  响应: {"success":true,"token":"1A0DE7AAC6E90762F230A64CA605B71A84A34A89BFECD29E2630B","code":null,"msg":null,"tp":null,"sv":null,"result":null,"retry":0,"ot":0}
+结果已写入 real_track2.json
