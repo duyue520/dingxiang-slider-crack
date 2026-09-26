@@ -1,23 +1,30 @@
 node_modules/
 __pycache__/
 *.pyc
+.DS_Store
+
+# 浏览器调试 profile
 .cp-*/
 cp-*/
 chrome-profile*/
+
+# 运行产物（每次运行都不同，不入库）
 flow/
 full/
 dump.json
 ua-drive.json
 run_result.json
+solve_result.json
+orchestrate_result.json
+auto_result.json
+ac.txt
 bg.webp
 slider.webp
 bg_orig.png
 compare_restore.png
-.DS_Store
-.cp-*/
-run_*.log
+*.log
 gp2.txt
 grab_post_out.txt
-orchestrate_result.json
-solve_result.json
-ac.txt
+auto_out.txt
+record_out.txt
+record2_out.txt

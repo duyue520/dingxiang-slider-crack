@@ -154,6 +154,27 @@ node ua-drive.cjs
 
 **这说明本项目在纯 Node 环境下复现出的行为，与真实浏览器等价。**
 
+### 证据 5：可视化验证图（全部可在本仓库复现）
+
+**① 还原前后对比** —— 左=原图（被打乱），右=按源码算法还原
+
+![还原对比](docs/img/01-restore-compare.png)
+
+**② 缺口定位结果** —— 红框即检测出的缺口，宽度稳定 42~45px
+
+![缺口定位](docs/img/02-gap-detect.png)
+
+**③ 像素级验证** —— 上=本项目还原 / 中=浏览器 SDK 还原 / 下=逐像素差异
+
+![像素验证](docs/img/03-pixel-verify.png)
+
+**④ 真人拖动轨迹分析** —— 采样点 83 个、间隔中位数 16.7ms（≈60fps）、总位移 155px
+
+![真人轨迹](docs/img/track-real-human.png)
+
+> 生成方式：`python tools/plot_track.py`
+> 原始数据来自 `real_track2.json`（真人手动拖动录制，非合成）
+
 ---
 
 ## 三、快速开始

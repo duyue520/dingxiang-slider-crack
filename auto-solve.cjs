@@ -160,13 +160,23 @@ window.__dxTool = {
 
   console.log('打开页面（瑞数防护下需 40~50 秒）...');
   await send('Page.navigate', { url: 'https://www.hb56.com/Login.aspx?type=pw' });
+  // ★ 等待条件必须包含「背景图 canvas 已可见」，否则拿到的是 loading 态的空 canvas
   let ready = false;
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0; i < 30; i++) {
     await sleep(2500);
-    const s = JSON.parse((await ev('JSON.stringify({s:!!document.querySelector("#demo .dx_captcha_basic_slider"),l:document.documentElement.outerHTML.length})')) || '{}');
-    if (s.s) { ready = true; break; }
+    const s = JSON.parse((await ev(`JSON.stringify((function(){
+        var cv = null;
+        var cvs = [].slice.call(document.querySelectorAll('canvas'));
+        for (var k = 0; k < cvs.length; k++) { if (cvs[k].width >= 250 && cvs[k].getBoundingClientRect().width > 0) { cv = cvs[k]; break; } }
+        var sl = document.querySelector('#demo .dx_captcha_basic_slider');
+        var bar = document.querySelector('#demo .dx_captcha_basic_bar');
+        return { cvVisible: !!cv, slider: !!sl, bar: !!bar, l: document.documentElement.outerHTML.length };
+      })())`)) || '{}');
+    if (i % 3 === 0) console.log('  等待中... canvas可见=%s slider=%s bar=%s len=%s', s.cvVisible, s.slider, s.bar, s.l);
+    if (s.cvVisible && s.slider && s.bar) { ready = true; break; }
   }
-  if (!ready) { console.log('页面未就绪'); process.exit(1); }
+  if (!ready) { console.log('页面未就绪（canvas 始终不可见）'); process.exit(1); }
+  await sleep(1500);   // 再给渲染一点时间
   console.log('页面就绪，注入工具函数');
   await ev(PAGE_FN);
   await sleep(1500);
