@@ -1,0 +1,18 @@
+{
+  "writes": [
+    {
+      "value": "s_v3#X8Xnl+A7o7kUiorYXX4zX8XjIR/wmXmhNO3ZCVUTuIyfwCY38IgFy8sDhOmfL3EB6nfUzTAXunZ",
+      "stack": "Error: UA_UA_WRITE\n    at Tt.set (<anonymous>:23:30)\n    at UAC.init (<anonymous>:29:23)\n    at p (https://cdn.gdtspace.com/static/dx-captcha/index.js:2:26780)\n    at https://cdn.gdtspace.com/static/dx-captcha/index.js:2:27391\n    at new Promise (<anonymous>)\n    at https://cdn.gdtspace.com/static/dx-captcha/index.js:2:27133"
+    }
+  ],
+  "dx": {
+    "Captcha": "function U(t,e){return void 0===e&&(e={}),x(t),V++,e=h(e),m(e),new T(t,e)}",
+    "inSDK": "false",
+    "dt": "1",
+    "ConstID": "function(){var t=e[302],n=arguments[e[13]]>0&&arguments[0]!==undefined?arguments[0]:{},o=a",
+    "_ConstID_Private": "function(){var t=e[302],n=arguments[e[13]]>0&&arguments[0]!==undefined?arguments[0]:{},o=a",
+    "Promise": "function C(a){var i=this;!function(r,e){if(!(r instanceof e))throw new TypeError(\"Cannot c",
+    "_constID_params": "j6JTUvz2q2Be-pkw-OVfVpZsVOz8G58ZMhmodfH9aYrwzEGeGgLJYhmwGvRPMv8alCYwYow2PDJTUvRojh0EBCF2VD",
+    "UA": "[object Object]"
+  }
+}

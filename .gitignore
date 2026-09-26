@@ -1,0 +1,16 @@
+node_modules/
+__pycache__/
+*.pyc
+.cp-*/
+cp-*/
+chrome-profile*/
+flow/
+full/
+dump.json
+ua-drive.json
+run_result.json
+bg.webp
+slider.webp
+bg_orig.png
+compare_restore.png
+.DS_Store

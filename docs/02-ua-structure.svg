@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="960" height="640" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="960" height="640" fill="#ffffff"/>
+  <text x="40" y="46" font-size="24" font-weight="700" fill="#1b2733">ac 的构成：greenseer 的 ua 字节流</text>
+  <text x="40" y="72" font-size="13" fill="#7b8a99">按固定顺序追加「设备段 + 行为段」，最后换表 base64 编码</text>
+  <line x1="40" y1="86" x2="920" y2="86" stroke="#e3e8ee" stroke-width="1.5"/>
+
+  <!-- header -->
+  <rect x="40" y="106" width="880" height="46" rx="8" fill="#1b2733"/>
+  <text x="58" y="135" font-size="13.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#ffd479">s_v3#</text>
+  <text x="118" y="135" font-size="13" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c7d3de">X8Xnl+A7o7O466oYXX4zX8XjIR/wmXmhNO3ZCVUTuIyfwCY38IgFy8sDhOmfL3EB6nfUzTAXunZFdCUiT5T+rVjC8vQjcTJXjW…</text>
+  <text x="800" y="135" font-size="11.5" fill="#8fa3b5">长度前缀</text>
+
+  <!-- device segment -->
+  <rect x="40" y="170" width="880" height="248" rx="10" fill="#f7fafc" stroke="#d6dee7"/>
+  <text x="60" y="198" font-size="15" font-weight="700" fill="#1b2733">① 设备指纹段</text>
+  <text x="196" y="198" font-size="12" fill="#7b8a99">由 UA 实例 start() 依次调用，顺序固定</text>
+
+  <text x="60" y="226" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getTM</text>
+  <text x="150" y="226" font-size="12" fill="#4a5b6b">时间戳</text>
+  <text x="60" y="248" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getBR</text>
+  <text x="150" y="248" font-size="12" fill="#4a5b6b">浏览器与版本</text>
+  <text x="60" y="270" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getLO</text>
+  <text x="150" y="270" font-size="12" fill="#4a5b6b">href / referrer</text>
+  <text x="60" y="292" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getCF</text>
+  <text x="150" y="292" font-size="12" fill="#4a5b6b">canvas 指纹</text>
+  <text x="60" y="314" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getDI</text>
+  <text x="150" y="314" font-size="12" fill="#4a5b6b">开发者工具检测</text>
+  <text x="60" y="336" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getEM</text>
+  <text x="150" y="336" font-size="12" fill="#4a5b6b">自动化检测</text>
+  <text x="60" y="358" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getJSV</text>
+  <text x="150" y="358" font-size="12" fill="#4a5b6b">SDK 版本</text>
+  <text x="60" y="380" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getTK</text>
+  <text x="150" y="380" font-size="12" fill="#4a5b6b">token 校验</text>
+  <text x="60" y="402" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">getSC</text>
+  <text x="150" y="402" font-size="12" fill="#4a5b6b">屏幕参数</text>
+
+  <rect x="330" y="212" width="570" height="120" rx="8" fill="#fff" stroke="#e3e8ee"/>
+  <text x="346" y="234" font-size="12.5" font-weight="700" fill="#1b2733">每一段的打包格式</text>
+  <text x="346" y="258" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c0392b">标记(1字节) + 长度(2字节大端) + encrypt_XX(数据)</text>
+  <text x="346" y="282" font-size="12" fill="#4a5b6b">共 7 个 encrypt_ 变换函数，名字从字符串表 hex 常量还原：</text>
+  <text x="346" y="304" font-size="10.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#5b6b7c">encrypt_w1lr1z2oelnk34gx9c3r / encrypt_21wpc2mwfyi2t86t19qs / encrypt_m2866nh30vws6vgbwwoe</text>
+  <text x="346" y="322" font-size="10.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#5b6b7c">encrypt_fqe9088f8le6wmwaqv / encrypt_g01ydat3haiujegxtjgp / encrypt_mm8fyhuehlp6qgks4l / encrypt_tggn0g2dqoerhfyiis4p</text>
+
+  <text x="60" y="444" font-size="12" fill="#7b8a99">实测：start() 后 ua 由 189 字节增长到 377 字节（20+ 项指纹写入）</text>
+
+  <!-- behavior segment -->
+  <rect x="40" y="430" width="880" height="176" rx="10" fill="#fffaf0" stroke="#f0dcb4"/>
+  <text x="60" y="458" font-size="15" font-weight="700" fill="#1b2733">② 行为轨迹段</text>
+  <text x="196" y="458" font-size="12" fill="#7b8a99">由 bindDomEvents() 监听，事件驱动写入</text>
+
+  <text x="60" y="488" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c07f00">recordSA(e)</text>
+  <text x="190" y="488" font-size="12" fill="#4a5b6b">滑块拖动轨迹（受 maxSALog=250 限流）</text>
+  <text x="60" y="510" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c07f00">getMM / getMD</text>
+  <text x="190" y="510" font-size="12" fill="#4a5b6b">鼠标移动 / 按下（maxMMLog=20, maxMDLog=10）</text>
+  <text x="60" y="532" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c07f00">getKD / getFO / getTC / getTMV</text>
+  <text x="300" y="532" font-size="12" fill="#4a5b6b">键盘 / 失焦 / 触摸 / 定时抽样</text>
+
+  <rect x="60" y="552" width="840" height="40" rx="6" fill="#fff" stroke="#f0dcb4"/>
+  <text x="76" y="578" font-size="12" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#4a5b6b">实测：派发 mousedown + mousemove×35 + mouseup 后，counters = {sa:35, mm:1, md:1}，ua 继续增长到 465 字节</text>
+
+  <!-- key finding -->
+  <rect x="40" y="622" width="880" height="0" fill="none"/>
+  <text x="40" y="628" font-size="12.5" font-weight="700" fill="#c0392b">核心结论：最终 ac 就是 UA 实例的 ua 字段（getUA() 的返回值），无需手工拼字节。</text>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="960" height="700" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5b6b7c"/>
+    </marker>
+    <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c0392b"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="700" fill="#ffffff"/>
+  <text x="40" y="46" font-size="24" font-weight="700" fill="#1b2733">顶象滑块 · 四步协议总览</text>
+  <text x="40" y="72" font-size="13" fill="#7b8a99">服务端 captcha.gdtspace.com ｜ 全部字段均为实测值</text>
+  <line x1="40" y1="86" x2="920" y2="86" stroke="#e3e8ee" stroke-width="1.5"/>
+
+  <!-- STEP 1 -->
+  <rect x="40" y="106" width="880" height="118" rx="10" fill="#f7fafc" stroke="#d6dee7"/>
+  <circle cx="70" cy="136" r="17" fill="#2d7ff9"/>
+  <text x="70" y="142" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+  <text x="100" y="142" font-size="16" font-weight="700" fill="#1b2733">取滑块参数</text>
+  <text x="250" y="142" font-size="13" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">GET /api/a</text>
+
+  <text x="70" y="172" font-size="12.5" fill="#4a5b6b">请求参数：</text>
+  <text x="150" y="172" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c0392b">aid=dx-{13位时间戳}-{8位随机数}-1</text>
+  <text x="150" y="192" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#4a5b6b">ak=90762f230adee6af3957d9a029269461　_r=随机小数　jsv=v1.4.0(81)</text>
+  <text x="70" y="214" font-size="12.5" fill="#4a5b6b">响应：</text>
+  <text x="150" y="214" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#1b8a5a">sid / o(32位还原序) / y(初始距离) / type / p1 / p2</text>
+
+  <line x1="480" y1="224" x2="480" y2="256" stroke="#5b6b7c" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- STEP 2 -->
+  <rect x="40" y="258" width="880" height="92" rx="10" fill="#f7fafc" stroke="#d6dee7"/>
+  <circle cx="70" cy="288" r="17" fill="#2d7ff9"/>
+  <text x="70" y="294" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+  <text x="100" y="294" font-size="16" font-weight="700" fill="#1b2733">取图</text>
+  <text x="190" y="294" font-size="13" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2d7ff9">GET /api/p1</text>
+  <text x="70" y="322" font-size="12.5" fill="#4a5b6b">imageType=0 → 背景图 (webp 300×150)　　imageType=1 → 滑块图 (webp 50×50 RGBA)</text>
+  <text x="70" y="342" font-size="12" fill="#c0392b">★ p1/p2 路径由服务端下发，其中 _r 为服务端生成，直接复用整条路径，不要自己造</text>
+
+  <line x1="480" y1="350" x2="480" y2="382" stroke="#5b6b7c" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- STEP 3 -->
+  <rect x="40" y="384" width="880" height="126" rx="10" fill="#fff5f5" stroke="#f0c2c2"/>
+  <circle cx="70" cy="414" r="17" fill="#c0392b"/>
+  <text x="70" y="420" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+  <text x="100" y="420" font-size="16" font-weight="700" fill="#1b2733">设备认证 → 拿 token</text>
+  <text x="290" y="420" font-size="13" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c0392b">GET /udid/c1</text>
+
+  <text x="70" y="450" font-size="12.5" fill="#4a5b6b">调用两次，两种 lidType：</text>
+  <text x="70" y="472" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#4a5b6b">① lidType=0　lid = 13位时间戳 + 32位随机串　　　→ status -4</text>
+  <text x="70" y="494" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#1b8a5a">② lidType=1　lid = 78位hex + 19项指纹　　　　→ status 2 + token</text>
+
+  <rect x="608" y="440" width="298" height="58" rx="6" fill="#fff" stroke="#f0c2c2"/>
+  <text x="620" y="460" font-size="11.5" font-weight="700" fill="#c0392b">⚠ 最大的坑：lid 放在请求头 Param</text>
+  <text x="620" y="480" font-size="11.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#4a5b6b">Param: j6JTUvz2q2Be-pkw-OVgVOBs-... (168字节)</text>
+
+  <line x1="480" y1="510" x2="480" y2="542" stroke="#5b6b7c" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- STEP 4 -->
+  <rect x="40" y="544" width="880" height="126" rx="10" fill="#f7fafc" stroke="#d6dee7"/>
+  <circle cx="70" cy="574" r="17" fill="#1b8a5a"/>
+  <text x="70" y="580" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+  <text x="100" y="580" font-size="16" font-weight="700" fill="#1b2733">过滑块验证</text>
+  <text x="252" y="580" font-size="13" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#1b8a5a">POST /api/v1</text>
+
+  <text x="70" y="610" font-size="12.5" fill="#4a5b6b">body (x-www-form-urlencoded)：</text>
+  <text x="70" y="632" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#c0392b">ac=s_v3%23X8Xnl+A7o7...　　&lt;— 核心，由 greenseer 的 ua 字节流构成</text>
+  <text x="70" y="654" font-size="12.5" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#4a5b6b">ak / aid / sid / x(滑动距离) / y(缺口位置) / c(第3步 token)</text>
+
+  <!-- right side: token -->
+  <rect x="640" y="598" width="266" height="52" rx="6" fill="#eefaf3" stroke="#a8dfc2"/>
+  <text x="652" y="618" font-size="11.5" font-weight="700" fill="#1b8a5a">实测响应</text>
+  <text x="652" y="638" font-size="11" font-family="ui-monospace,Menlo,Consolas,monospace" fill="#2b6b4f">{"success":true,"token":"..."} </text>
+</svg>
